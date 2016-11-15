@@ -23,7 +23,7 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+ $app->withFacades();
 
 // $app->withEloquent();
 
@@ -47,6 +47,7 @@ $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
+
 
 /*
 |--------------------------------------------------------------------------
@@ -96,5 +97,11 @@ $app->singleton(
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../app/Http/routes.php';
 });
+
+$app->configure('mail');
+$app->configure('services');
+$app->register(Sichikawa\LaravelSendgridDriver\MailServiceProvider::class);
+
+unset($app->availableBindings['mailer']);
 
 return $app;
